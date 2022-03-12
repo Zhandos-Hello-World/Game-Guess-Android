@@ -30,7 +30,7 @@ class ResultFragment: Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ResultViewModel::class.java]
 
 
-        binding.resultText.text = viewModel.finalResult
+        binding.resultViewModel = viewModel
 
         binding.restartButton.setOnClickListener {
             val action = ResultFragmentDirections.actionResultFragmentToGameFragment()

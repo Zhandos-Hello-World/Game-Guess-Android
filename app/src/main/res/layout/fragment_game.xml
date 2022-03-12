@@ -1,53 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".GameFragment"
-    android:padding="16dp"
-    android:orientation="vertical">
+    tools:context=".GameFragment">
+    <data>
+        <variable
+            name="gameViewModel"
+            type="production.zhandos.gameGuesses.GameViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/word"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="36sp"
-        android:padding="8dp"
-        android:letterSpacing="0.1"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/lives_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        />
+        <TextView
+            android:id="@+id/word"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="36sp"
+            android:padding="8dp"
+            android:letterSpacing="0.1"
+            android:text="@{gameViewModel.secretWordDisplay}"
+            />
 
-    <TextView
-        android:id="@+id/incorrect_guesses"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
+        <TextView
+            android:id="@+id/lives_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="@{@string/lives_left(gameViewModel.livesLeft)}"
+            />
 
-        />
+        <TextView
+            android:id="@+id/incorrect_guesses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="@{@string/incorrect_guesses(gameViewModel.incorrectGuesses)}"
+            />
 
-    <EditText
-        android:id="@+id/input"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:textSize="16sp"
-        android:hint="Guess a letter"
-        android:inputType="text"
-        android:maxLength="1"
-        />
+        <EditText
+            android:id="@+id/input"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:hint="Guess a letter"
+            android:inputType="text"
+            android:maxLength="1"
+            />
 
-    <Button
-        android:id="@+id/guess_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Guess!"
-        />
+        <Button
+            android:id="@+id/guess_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Guess!"
+            />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/finish_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Finish game"
+            android:onClick="@{() -> gameViewModel.finishGame()}"
+            />
+    </LinearLayout>
+</layout>
