@@ -26,16 +26,26 @@ class GameFragment: Fragment() {
 
         viewModel = ViewModelProvider(this)[GameViewModel::class.java]
 
-        updateScreen()
+        viewModel.incorrectGuesses.observe(viewLifecycleOwner) { newValue ->
+            binding.incorrectGuesses.text = "Incorrect guesses: $newValue"
+        }
+        viewModel.livesLeft.observe(viewLifecycleOwner){ newValue ->
+            binding.livesLeft.text = "You have $newValue lives left."
+        }
+        viewModel.secretWordDisplay.observe(viewLifecycleOwner) { newValue ->
+            binding.word.text = newValue
+        }
+
+        viewModel.gameOver.observe(viewLifecycleOwner) { newValue ->
+            if (newValue) {
+                val action = GameFragmentDirections.actionGameFragmentToResultFragment(viewModel.wonLostMessage())
+                view.findNavController().navigate(action)
+            }
+        }
 
         binding.guessButton.setOnClickListener {
             viewModel.makeGuess(binding.input.text.toString().uppercase())
             binding.input.text = null
-            updateScreen()
-            if (viewModel.isWon() || viewModel.isLost()) {
-                val action = GameFragmentDirections.actionGameFragmentToResultFragment(viewModel.wonLostMessage())
-                view.findNavController().navigate(action)
-            }
         }
         return view
     }
@@ -45,9 +55,4 @@ class GameFragment: Fragment() {
         _binding = null
     }
 
-    fun updateScreen() {
-        binding.word.text = viewModel.secretWordDisplay
-        binding.livesLeft.text = "You have ${viewModel.livesLeft} lives left."
-        binding.incorrectGuesses.text = "Incorrect guesses: ${viewModel.incorrectGuesses}"
-    }
 }
